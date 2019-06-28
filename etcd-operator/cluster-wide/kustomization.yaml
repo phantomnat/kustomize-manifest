@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../base
+commonLabels:
+  kustomize.component: etcd-operator
+commonAnnotations:
+  operator.scope: cluster-wide
+images:
+  - name: quay.io/coreos/etcd-operator
+    newName: quay.io/coreos/etcd-operator
+    newTag: v0.9.4
+patchesJson6902:
+- target:
+    group: extensions
+    version: v1beta1
+    kind: Deployment
+    name: etcd-operator
+  path: deployment-patch.yaml
